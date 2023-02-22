@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Paciente</h2>
+<span class="small text-secondary">Ingresa tus datos para registrarte</span>
+<div class="row g-3">
+
+<form action="/api/usuario/paciente" method="POST">
+  <div class="form-group">
+    <label for="nombres">Nombre</label>
+    <input type="text" class="form-control" id="nombres" name="nombre" placeholder="Ingresar nombre">
+  </div>
+  <div class="form-group">
+    <label for="apellidos">Apellido</label>
+    <input type="text" class="form-control" id="apellidos" name="apellido" placeholder="Ingrar apellido">
+  </div>
+  <div class="form-group">
+    <label for="dnis">Dni</label>
+    <input type="text" class="form-control" id="dnis" name="dni" placeholder="Ingresar DNI">
+  </div>
+   <div class="form-group">
+    <label for="">Direccion</label>
+    <input type="text" class="form-control" id="" name="direccion" placeholder="Ingresar Dirección">
+  </div>
+   <div class="form-group">
+    <label for="">Localidad</label>
+    <input type="text" class="form-control" id="" name="localidad" placeholder="Ingresar localidad">
+  </div>
+  <div class="form-group">
+    <label for="emails">Email</label>
+    <input type="text" class="form-control" id="emails" name="email" placeholder="Ingrese un email">
+  </div>
+  <div class="form-group">
+    <label for="">Telefono 1</label>
+    <input type="text" class="form-control" id="" name="telefono_1" placeholder="Ingresar teléfono 1">
+  </div>
+  <div class="form-group">
+    <label for="">Telefono 2</label>
+    <input type="text" class="form-control" id="" name="telefono_2" placeholder="Ingresar teléfono 2">
+  </div>
+  <div class="form-group">
+    <label for="">Obra Social</label>
+    <input type="text" class="form-control" id="" name="obra_social" placeholder="Ingresar obra social">
+  </div>
+   <div class="form-group">
+    <label for="">Identificación obra social</label>
+    <input type="text" class="form-control" id="" name="id_obra_social" placeholder="Ingresar identificacion obra social">
+  </div>
+  <button type="submit" class="btn btn-primary">Registrar</button> 
+  <button class="btn btn-primary"><a href="./usuario">Volver</a></button>
+</form>
+</div>
+</body>
+</html>

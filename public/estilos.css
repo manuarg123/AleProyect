@@ -1,0 +1,16 @@
+.red{
+    background-color: red!important;
+}
+
+body{
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
+.center{
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
+
+.ancho {
+    width:  300px!important;
+}

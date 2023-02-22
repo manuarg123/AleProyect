@@ -1,0 +1,59 @@
+<h2>Bienvenido.</h2>
+    {{#if status}}
+        <h4>Lista de pacientes</h4>
+        <button class="btn btn-primary"><a style="text-decoration: none; color:aliceblue"href="./usuario/form_paciente">Agregar Paciente</a></button>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Direccion</th>
+                <th scope="col">Localidad</th>
+                <th scope="col">Teléfono 1</th>
+                <th scope="col">Teléfono 2</th>
+                <th scope="col">Obra Social</th>
+                <th scope="col">Nro en Obra Social</th>
+                <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                    {{# each pacientes as | item key |}}
+                        {{# each item }}
+                            {{#if nombre}}
+                            <tr>
+                                <td>{{nombre}}</td>
+                                <td>{{apellido}}</td>
+                                <td>{{dni}}</td>
+                                <td>{{direccion}}</td>
+                                <td>{{localidad}}</td>
+                                <td>{{telefono_1}}</td>
+                                <td>{{telefono_2}}</td>
+                                <td>{{obra_social}}</td>
+                                <td>{{id_obra_social}}</td>
+                                <td><button class="btn btn-primary btn-warning">
+                                      <a    style="text-decoration: none; color:aliceblue"
+                                            href="/api/usuario/pacientes/editar/{{_id}}">
+                                            Editar
+                                      </a>  
+                                    </button>
+                                    <form action="/api/usuario/pacientes/eliminar/{{_id}}?_method=DELETE"
+                                           method="POST">
+                                       <input type="hidden" value="DELETE" name="_method">
+                                        <button class="btn btn-primary btn-danger"
+                                                style="color:aliceblue"
+                                                type="submit"
+                                        >Borrar
+                                    </form>
+                                </td>
+                            </tr>
+                            {{/if}}
+                        {{/each}}                    
+                    {{/each}}               
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="edicionPaiente">hola</div>
+    {{else}}
+       <h4>Necesitas loguearte para acceder a la página</h4>
+    {{/if}}
