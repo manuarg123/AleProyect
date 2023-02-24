@@ -1,67 +1,69 @@
-import mongoose  from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
-
+import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 
 const Schema = mongoose.Schema;
 
 let pacienteSchema = new Schema({
-    nombre: {
-        type: String,
-    },
+  nombre: {
+    type: String,
+  },
 
-    apellido: {
-        type: String,
-    },
-    
-    dni: {
-        type: String,
-    },
+  apellido: {
+    type: String,
+  },
 
-    direccion: {
-        type: String,
-    },
-    
-    localidad: {
-        type: String,
-    },
+  dni: {
+    type: String,
+  },
 
-    email: {
-        type: String
-    },
+  fecha_nacimiento: {
+    type: Date,
+  },
 
-    telefono_1: {
-        type: String
-    },
-    
-    telefono_2: {
-        type: String
-    },
+  direccion: {
+    type: String,
+  },
 
-    obra_social: {
-        type: String
-    },
+  localidad: {
+    type: String,
+  },
 
-    id_obra_social: {
-        type: String
-    },
+  email: {
+    type: String,
+  },
 
-    timestamp: {
-        type: Date,
-        default: Date.now
-    },
+  telefono_1: {
+    type: String,
+  },
 
-    comentarios: [{ type: Schema.Types.ObjectId, ref: 'Comentario' }]
+  telefono_2: {
+    type: String,
+  },
+
+  obra_social: {
+    type: String,
+  },
+
+  id_obra_social: {
+    type: String,
+  },
+
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  },
+
+  comentarios: [{ type: Schema.Types.ObjectId, ref: "Comentario" }],
 });
 
 let comentarioSchema = new Schema({
-    comentario: {type: String},
-    fecha:{type: Date,
-           default: Date.now}
+  comentario: { type: String },
+  fecha: { type: Date, default: Date.now },
 });
 
 pacienteSchema.plugin(uniqueValidator, {
-    message: '{PATH} debe ser único'
-})
+  message: "{PATH} debe ser único",
+});
 
-export const Paciente = mongoose.model('Paciente', pacienteSchema);
-export const Comentario = mongoose.model('Comentario', comentarioSchema);
+export const Paciente = mongoose.model("Paciente", pacienteSchema);
+export const Comentario = mongoose.model("Comentario", comentarioSchema);

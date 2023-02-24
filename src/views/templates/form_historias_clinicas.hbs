@@ -1,113 +1,187 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
+  </head>
+  <body>
     <h2>Agregar Historia Clínica</h2>
     <h1>{{id}}</h1>
-<div class="row g-3">
+    <div class="row g-3">
 
-<form action="/api/usuario/historia-clinica" method="POST">
- <div class="row">
-      <div class="col 3">
-        <h3>Datos Personales</h3>
-        <div class="form-group">
-          <label for="nombres">Nombre Completo</label>
-          <input type="text" class="form-control" id="nombres" name="nombre_completo" >
+      <form action="/api/usuario/historia-clinica" method="POST">
+        <div class="row">
+          <div class="col 3">
+            <h3>Datos Personales</h3>
+            <div class="form-group">
+              <label for="nombres">Nombre Completo</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombres"
+                name="nombre_completo"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="dnis">Dni</label>
+              <input
+                type="text"
+                class="form-control"
+                id="dnis"
+                name="dni"
+                placeholder="Ingresar DNI"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="fecha_nacimiento">Fecha Nacimiento</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fecha_nacimiento"
+                name="fecha_nacimiento"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="">Direccion</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="direccion"
+                placeholder="Ingresar Dirección"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="">Localidad</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="localidad"
+                placeholder="Ingresar localidad"
+              />
+            </div>
+            <div class="form-group">
+              <label for="emails">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="emails"
+                name="email"
+                placeholder="Ingrese un email"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Telefono 1</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="telefono_1"
+                placeholder="Ingresar teléfono 1"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Telefono 2</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="telefono_2"
+                placeholder="Ingresar teléfono 2"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Obra Social</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="obra_social"
+                placeholder="Ingresar obra social"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Identificación obra social</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="id_obra_social"
+                placeholder="Ingresar identificacion obra social"
+              />
+            </div>
+          </div>
+          <div class="col 3">
+            <h3>Datos Consulta</h3>
+            <div class="form-group">
+              <label>Fecha Consulta</label>
+              <input type="date" class="form-control" name="fecha_consulta" />
+              <br />
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                name="motivos_consulta"
+                id="floatingTextarea"
+                placeholder="Motivos Consulta.."
+              ></textarea>
+              <br />
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                name="condicion_actual"
+                placeholder="Condición Actual.."
+              ></textarea>
+              <br />
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                name="antecedentes_salud"
+                placeholder="Antecedentes de Salud.."
+              ></textarea>
+              <br />
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                name="comentarios"
+                placeholder="Comentarios.."
+              ></textarea>
+              <br />
+            </div>
+          </div>
+          <div class="col 3">
+            <h3>Agregar Archivos adjuntos</h3>
+
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+              <input type="file" class="form-control" name="file" />
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="dnis">Dni</label>
-          <input type="text" class="form-control" id="dnis" name="dni" placeholder="Ingresar DNI">
-        </div>
-      
-        <div class="form-group">
-          <label for="fecha_nacimiento">Fecha Nacimiento</label>
-          <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
-        </div>
-
-        <div class="form-group">
-          <label for="">Direccion</label>
-          <input type="text" class="form-control" id="" name="direccion" placeholder="Ingresar Dirección">
-        </div>
-
-        <div class="form-group">
-          <label for="">Localidad</label>
-          <input type="text" class="form-control" id="" name="localidad" placeholder="Ingresar localidad">
-        </div>
-        <div class="form-group">
-          <label for="emails">Email</label>
-          <input type="text" class="form-control" id="emails" name="email" placeholder="Ingrese un email">
-        </div>
-        <div class="form-group">
-          <label for="">Telefono 1</label>
-          <input type="text" class="form-control" id="" name="telefono_1" placeholder="Ingresar teléfono 1">
-        </div>
-        <div class="form-group">
-          <label for="">Telefono 2</label>
-          <input type="text" class="form-control" id="" name="telefono_2" placeholder="Ingresar teléfono 2">
-        </div>
-        <div class="form-group">
-          <label for="">Obra Social</label>
-          <input type="text" class="form-control" id="" name="obra_social" placeholder="Ingresar obra social">
-        </div>
-        <div class="form-group">
-          <label for="">Identificación obra social</label>
-          <input type="text" class="form-control" id="" name="id_obra_social" placeholder="Ingresar identificacion obra social">
-        </div>
-    </div>   
-    <div class="col 3">
-      <h3>Datos Consulta</h3>
-        <div class="form-group">
-          <label >Fecha Consulta</label>
-          <input type="date" class="form-control" name="fecha_consulta" >
-          <br>
-        </div>
-       <div class="form-group">
-          <textarea class="form-control" name="motivos_consulta" id="floatingTextarea" placeholder="Motivos Consulta.." ></textarea>
-          <br>
-        </div>
-        <div class="form-group">
-          <textarea class="form-control" name="condicion_actual" placeholder="Condición Actual.." ></textarea>
-          <br>
-        </div>
-       <div class="form-group">
-          <textarea class="form-control" name="antecedentes_salud" placeholder="Antecedentes de Salud.." ></textarea>
-          <br>
-        </div>
-        <div class="form-group">
-          <textarea class="form-control" name="comentarios" placeholder="Comentarios.." ></textarea>
-           <br>
-        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+        <button class="btn btn-primary"><a href="./usuario">Volver</a></button>
+      </form>
     </div>
-    <div class="col 3">
-      <h3>Agregar Archivos adjuntos</h3>
-      
-      <div class="form-group">
-          <input type="file" class="form-control" name="file">
-      </div>
-      <div class="form-group">
-          <input type="file" class="form-control" name="file">
-      </div>
-      <div class="form-group">
-          <input type="file" class="form-control" name="file">
-      </div>
-      <div class="form-group">
-          <input type="file" class="form-control" name="file">
-      </div>
-      <div class="form-group">
-          <input type="file" class="form-control" name="file">
-      </div>
-    </div>
-  </div>
-
-  <button type="submit" class="btn btn-primary">Registrar</button> 
-  <button class="btn btn-primary"><a href="./usuario">Volver</a></button>
-</form>
-</div>
-</body>
+  </body>
 </html>

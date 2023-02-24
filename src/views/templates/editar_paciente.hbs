@@ -1,80 +1,170 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    {{# each paciente}}   
-        {{# if nombre}} 
-            <h2>Editar Paciente</h2>
-             <form action="/api/usuario/historias_clinicas/{{_id}}?_method=GET"
-                    method="POST">
-                <input type="hidden" value="GET" name="_method">
-                <button class="btn btn-primary"
-                        style="color:aliceblue"
-                        type="submit"
-                >Historia clinica/consultas</button>
-            </form>
-           
-            <div class="row g-3">
+  </head>
+  <body>
+    {{#each paciente}}
+      {{#if nombre}}
+        <h2>Editar Paciente</h2>
+        <h3>{{falopa}}</h3>
+        <form
+          action="/api/usuario/historias_clinicas/{{_id}}?_method=GET"
+          method="POST"
+        >
+          <input type="hidden" value="GET" name="_method" />
+          <button
+            class="btn btn-primary"
+            style="color:aliceblue"
+            type="submit"
+          >Historia clinica/consultas</button>
+        </form>
 
-            <form action="/api/usuario/pacientes/editar/{{_id}}?_method=PUT" method="POST">
-            <input type="hidden" name="_method" value="PUT">
+        <div class="row g-3">
+
+          <form
+            action="/api/usuario/pacientes/editar/{{_id}}?_method=PUT"
+            method="POST"
+          >
+            <input type="hidden" name="_method" value="PUT" />
             <div class="form-group">
-                <label for="nombres">Nombre</label>
-                <input type="text" class="form-control" id="nombres" name="nombre" placeholder="Ingresar nombre" value="{{nombre}}">
-            </div>
-            <div class="form-group">
-                <label for="apellidos">Apellido</label>
-                <input type="text" class="form-control" id="apellidos" name="apellido" placeholder="Ingresar apellido" value="{{apellido}}">
-            </div>
-            <div class="form-group">
-                <label for="dnis">Dni</label>
-                <input type="text" class="form-control" id="dnis" name="dni" placeholder="Ingresar DNI" value="{{dni}}">
-            </div>
-            <div class="form-group">
-                <label for="">Direccion</label>
-                <input type="text" class="form-control" id="" name="direccion" placeholder="Ingresar Dirección" value="{{direccion}}">
-            </div>
-            <div class="form-group">
-                <label for="">Localidad</label>
-                <input type="text" class="form-control" id="" name="localidad" placeholder="Ingresar localidad" value="{{localidad}}">
+              <label for="nombres">Nombre</label>
+              <input
+                type="text"
+                class="form-control"
+                id="nombres"
+                name="nombre"
+                placeholder="Ingresar nombre"
+                value="{{nombre}}"
+              />
             </div>
             <div class="form-group">
-                <label for="emails">Email</label>
-                <input type="text" class="form-control" id="emails" name="email" placeholder="Ingrese un email" value="{{email}}">
+              <label for="apellidos">Apellido</label>
+              <input
+                type="text"
+                class="form-control"
+                id="apellidos"
+                name="apellido"
+                placeholder="Ingresar apellido"
+                value="{{apellido}}"
+              />
             </div>
             <div class="form-group">
-                <label for="">Telefono 1</label>
-                <input type="text" class="form-control" id="" name="telefono_1" placeholder="Ingresar teléfono 1" value="{{telefono_1}}">
+              <label for="dnis">Dni</label>
+              <input
+                type="text"
+                class="form-control"
+                id="dnis"
+                name="dni"
+                placeholder="Ingresar DNI"
+                value="{{dni}}"
+              />
             </div>
-            <div class="form-group">
-                <label for="">Telefono 2</label>
-                <input type="text" class="form-control" id="" name="telefono_2" placeholder="Ingresar teléfono 2"  value="{{telefono_2}}">
-            </div>
-            <div class="form-group">
-                <label for="">Obra Social</label>
-                <input type="text" class="form-control" id="" name="obra_social" placeholder="Ingresar obra social"  value="{{obra_social}}">
-            </div>
-            <div class="form-group">
-                <label for="">Identificación obra social</label>
-                <input type="text" class="form-control" id="" name="id_obra_social" placeholder="Ingresar identificacion obra social"  value="{{id_obra_social}}">
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
-            <form action="/?_method=GET"
-                    method="POST">
-                <input type="hidden" value="GET" name="_method">
-                <button class="btn btn-primary"
-                        style="color:aliceblue"
-                        type="submit"
-                >Volver</button>
-            </form>
-            </form>
-            </div>
-        {{/if}}
+          {{/if}}
     {{/each}}
-</body>
+    
+            <div class="form-group">
+              <label>Fecha Nacimiento</label>
+              <input
+                type="date"
+                class="form-control"
+                name="fecha_nacimiento"
+                value="{{nacimiento}}"
+              />
+            </div>
+           {{#each paciente}}
+      {{#if nombre}}
+            <div class="form-group">
+              <label for="">Direccion</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="direccion"
+                placeholder="Ingresar Dirección"
+                value="{{direccion}}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Localidad</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="localidad"
+                placeholder="Ingresar localidad"
+                value="{{localidad}}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="emails">Email</label>
+              <input
+                type="text"
+                class="form-control"
+                id="emails"
+                name="email"
+                placeholder="Ingrese un email"
+                value="{{email}}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Telefono 1</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="telefono_1"
+                placeholder="Ingresar teléfono 1"
+                value="{{telefono_1}}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Telefono 2</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="telefono_2"
+                placeholder="Ingresar teléfono 2"
+                value="{{telefono_2}}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Obra Social</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="obra_social"
+                placeholder="Ingresar obra social"
+                value="{{obra_social}}"
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Identificación obra social</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                name="id_obra_social"
+                placeholder="Ingresar identificacion obra social"
+                value="{{id_obra_social}}"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            <form action="/?_method=GET" method="POST">
+              <input type="hidden" value="GET" name="_method" />
+              <button
+                class="btn btn-primary"
+                style="color:aliceblue"
+                type="submit"
+              >Volver</button>
+            </form>
+          </form>
+        </div>
+      {{/if}}
+    {{/each}}
+  </body>
 </html>
