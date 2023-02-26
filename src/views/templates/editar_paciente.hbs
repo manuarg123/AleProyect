@@ -9,7 +9,6 @@
     {{#each paciente}}
       {{#if nombre}}
         <h2>Editar Paciente</h2>
-        <h3>{{falopa}}</h3>
         <form
           action="/api/usuario/historias_clinicas/{{_id}}?_method=GET"
           method="POST"

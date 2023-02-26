@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/api/usuario/subir_archivos/{{nombre_completo}}/{{fecha_consulta}}/{{id_paciente}}/{{id}}" method="POST" enctype="multipart/form-data">
+        <div class="col 3">
+            <h3>Agregar Archivos adjuntos</h3>
+
+            <div class="form-group">
+                <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file" />
+            </div>
+            <div class="form-group">
+                <input type="file" class="form-control" name="file" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Subir Archivos</button>
+    </form>
+</body>
+</html>

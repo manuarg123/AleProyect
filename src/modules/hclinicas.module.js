@@ -78,7 +78,7 @@ let hclinicaSchema = new Schema({
   },
 });
 
-pacienteSchema.plugin(uniqueValidator, {
+hclinicaSchema.plugin(uniqueValidator, {
   message: "{PATH} debe ser único",
 });
 

@@ -15,7 +15,53 @@
                 type="submit"
         >Agregar Consulta/Registro</button>
     </form>
-    Historias clínicas
-    <h1>{{id}}</h1>
+        <h2>Historia Clínica </h2>           
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Fecha Consulta</th>
+                <th scope="col">Nombre/Apellido</th>
+                <th scope="col">DNI</th>
+                <th scope="col">Comentarios</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+                {{# each hclinicas as | item key |}}
+                    {{# each item }}
+                        {{#if nombre_completo}}
+                        <tr>
+                            <td>{{formatTime fecha_consulta "DD/MM/YYYY"}}</td>                            
+                            <td>{{nombre_completo}}</td>
+                            <td>{{dni}}</td>
+                            <td>{{comentarios}}</td>
+                            <td>
+                                <button class="btn btn-primary btn-warning">
+                                    <a    style="text-decoration: none; color:aliceblue"
+                                        href="/api/usuario/historia_clinica/editar/{{id_paciente}}/{{_id}}">
+                                        Editar
+                                    </a>  
+                                </button>
+                                <button class="btn btn-primary btn-warning">
+                                    <a    style="text-decoration: none; color:aliceblue"
+                                        href="/api/usuario/ver_adjuntos/{{nombre_completo}}/{{fecha_consulta}}">
+                                        Ver Archivos Adjuntos
+                                    </a>  
+                                </button>
+                                <form action="/api/usuario/hclinicas/eliminar/{{id_paciente}}/{{_id}}?_method=DELETE"
+                                        method="POST">
+                                    <input type="hidden" value="DELETE" name="_method">
+                                    <button class="btn btn-primary btn-danger"
+                                            style="color:aliceblue"
+                                            type="submit"
+                                    >Borrar
+                                </form>
+                            </td>
+                        </tr>
+                        {{/if}}
+                    {{/each}}                    
+                {{/each}}               
+        </tbody>
+    </table>
 </body>
 </html>
