@@ -1,237 +1,245 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h2>Editar Consulta</h2>
-    <div class="row g-3">
+    <div class="row">
+      <center><h2>Editar Consulta</h2></center>
       {{#each hclinica}}
-      {{#if nombre_completo}}
-      <form action="/api/usuario/historias_clinicas/editar/{{id_paciente}}/{{_id}}?_method=PUT" method="POST">
-        <input type="hidden" name="_method" value="PUT" />
-       {{/if}}
-       {{/each}}
-        <div class="row">
-          <div class="col 6">
-            <h3>Datos Personales</h3>
-             <div class="form-group">
-              <input
-                type="hidden"
-                class="form-control"
-                name="id_paciente"
-                value="{{id_paciente}}"
-                readonly="true"
-              />
-            </div>
-            {{#each hclinica}}
-              {{#if nombre_completo}}
-                <div class="form-group">
-                  <label for="nombres">Nombre Completo</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="nombres"
-                    name="nombre_completo"
-                    value="{{nombre_completo}}"
-                    readonly="true"
-                  />
-                </div>
-              {{/if}}
-           {{/each}}
-           {{#each paciente}}
-            {{#if nombre}}
-              <div class="form-group">
-                <label for="dnis">Dni</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="dnis"
-                  name="dni"
-                  placeholder="Ingresar DNI"
-                  value = "{{dni}}"
-                  readonly="true"
-                />
-              </div>
-             {{/if}}
-           {{/each}}
-            <div class="form-group">
-              <label for="fecha_nacimiento">Fecha Nacimiento</label>
-              <input
-                type="date"
-                class="form-control"
-                id="fecha_nacimiento"
-                name="fecha_nacimiento"
-                value="{{nacimiento}}"
-                readonly="true"
-              />
-            </div>
-          {{#each paciente}}
-            {{#if nombre}}
-            <div class="form-group">
-              <label for="">Direccion</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                name="direccion"
-                placeholder="Ingresar Dirección"
-                value="{{direccion}}"
-                readonly="true"
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="">Localidad</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                name="localidad"
-                placeholder="Ingresar localidad"
-                value="{{localidad}}"
-                readonly="true"
-              />
-            </div>
-            <div class="form-group">
-              <label for="emails">Email</label>
-              <input
-                type="text"
-                class="form-control"
-                id="emails"
-                name="email"
-                placeholder="Ingrese un email"
-                value="{{email}}"
-                readonly="true"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Telefono 1</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                name="telefono_1"
-                placeholder="Ingresar teléfono 1"
-                value="{{telefono_1}}"
-                readonly="true"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Telefono 2</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                name="telefono_2"
-                placeholder="Ingresar teléfono 2"
-                value="{{telefono_2}}"
-                readonly="true"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Obra Social</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                name="obra_social"
-                placeholder="Ingresar obra social"
-                value="{{obra_social}}"
-                readonly="true"
-              />
-            </div>
-            <div class="form-group">
-              <label for="">Identificación obra social</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                name="id_obra_social"
-                placeholder="Ingresar identificacion obra social"
-                value="{{id_obra_social}}"
-                readonly="true"
-              />
-            </div>
-             {{/if}}
-           {{/each}}
-          </div>
-          
-          <div class="col 6">
-            <h3>Datos Consulta</h3>
-            <div class="form-group">
-              <label>Fecha Consulta</label>
-              <input type="date" 
-                     class="form-control" 
-                     name="fecha_consulta" 
-                     required="true"
-                     value="{{f_consulta}}"/>
-              <br />
-            </div>
-            {{#each hclinica}}
-             {{#if nombre_completo}}
-            <div class="form-group">
-              <label>Motivo Consulta</label>
-              <textarea
-                class="form-control"
-                name="motivo_consulta"
-                id="floatingTextarea"
-                placeholder="Motivos Consulta.."
-              >{{motivo_consulta}}</textarea>
-              <br />
-            </div>
-            <div class="form-group">
-              <label>Condición Actual</label>
-              <textarea
-                class="form-control"
-                name="condicion_actual"
-                placeholder="Condición Actual.."
-              >{{condicion_actual}}</textarea>
-              <br />
-            </div>
-            <div class="form-group">
-              <label>Antecedentes Salud</label>
-              <textarea
-                class="form-control"
-                name="antecedentes_salud"
-                placeholder="Antecedentes de Salud.."
-              >{{antecedentes_salud}}</textarea>
-              <br />
-            </div>
-            <div class="form-group">
-              <label>Comentarios</label>
-              <textarea
-                class="form-control"
-                name="comentarios"
-                placeholder="Comentarios.."
-              >{{comentarios}}</textarea>
-              <br />
-            </div>
-          </div>
-        </div>
-       
-        <button type="submit" class="btn btn-primary">Registrar</button>
-        <form action="//historia_clinica/editar/{{id_paciente}}/{{_id}}?_method=GET" method="POST">
-              <input type="hidden" value="GET" name="_method" />
-              <button
-                class="btn btn-primary"
-                style="color:aliceblue"
-                type="submit"
-              >Volver</button>
-        </form>
-         <form action="/api/usuario/subir_adjuntos/{{nombre_completo}}/{{fecha_consulta}}/{{id_paciente}}/{{_id}}?_method=GET" method="POST">
-              <input type="hidden" value="GET" name="_method" />
-              <button
-                class="btn btn-primary"
-                style="color:aliceblue"
-                type="submit"
-              >Subir Archivos Adjuntos</button>
-        </form>
+        {{#if nombre_completo}}
+          <form action="/api/usuario/historias_clinicas/editar/{{id_paciente}}/{{_id}}?_method=PUT" method="POST">
+          <input type="hidden" name="_method" value="PUT" />
         {{/if}}
-        {{/each}}
-      </form>
+      {{/each}}
+      <div class="row">
+          <div class="col 1"></div>
+          <div class="col 10">
+              <fieldset class="border p-2">
+                  <legend  class="float-none w-auto p-2">Datos personales</legend>
+                  <div class="form-group">
+                      <input
+                        type="hidden"
+                        class="form-control"
+                        name="id_paciente"
+                        value="{{id_paciente}}"
+                        readonly="true"
+                      />
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col 6">
+                        {{#each hclinica}}
+                          {{#if nombre_completo}}
+                            <div class="form-group">
+                                <label for="nombres">Nombre Completo</label>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="nombres"
+                                  name="nombre_completo"
+                                  value="{{nombre_completo}}"
+                                  readonly="true"
+                                />
+                            </div>
+                          {{/if}}
+                        {{/each}}
+                        {{#each paciente}}
+                          {{#if nombre}}
+                            <div class="form-group">
+                              <label for="dnis">Dni</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id="dnis"
+                                name="dni"
+                                placeholder="Ingresar DNI"
+                                value = "{{dni}}"
+                                readonly="true"
+                              />
+                            </div>
+                          {{/if}}
+                        {{/each}}
+                        <div class="form-group">
+                            <label for="fecha_nacimiento">Fecha Nacimiento</label>
+                            <input
+                              type="date"
+                              class="form-control"
+                              id="fecha_nacimiento"
+                              name="fecha_nacimiento"
+                              value="{{nacimiento}}"
+                              readonly="true"
+                            />
+                        </div>
+                        {{#each paciente}}
+                          {{#if nombre}}
+                            <div class="form-group">
+                              <label for="">Direccion</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id=""
+                                name="direccion"
+                                placeholder="Ingresar Dirección"
+                                value="{{direccion}}"
+                                readonly="true"
+                              />
+                            </div>
+
+                            <div class="form-group">
+                              <label for="">Localidad</label>
+                              <input
+                                type="text"
+                                class="form-control"
+                                id=""
+                                name="localidad"
+                                placeholder="Ingresar localidad"
+                                value="{{localidad}}"
+                                readonly="true"
+                              />
+                            </div>
+                         
+                    </div>
+                    <div class="col 6">
+                       <div class="form-group">
+                          <label for="emails">Email</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="emails"
+                            name="email"
+                            placeholder="Ingrese un email"
+                            value="{{email}}"
+                            readonly="true"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="">Telefono 1</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            name="telefono_1"
+                            placeholder="Ingresar teléfono 1"
+                            value="{{telefono_1}}"
+                            readonly="true"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="">Telefono 2</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            name="telefono_2"
+                            placeholder="Ingresar teléfono 2"
+                            value="{{telefono_2}}"
+                            readonly="true"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="">Obra Social</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            name="obra_social"
+                            placeholder="Ingresar obra social"
+                            value="{{obra_social}}"
+                            readonly="true"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="">Identificación obra social</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            name="id_obra_social"
+                            placeholder="Ingresar identificacion obra social"
+                            value="{{id_obra_social}}"
+                            readonly="true"
+                          />
+                        </div>
+                      
+                    </div>
+                      {{/if}}
+                    {{/each}}
+                  </div>
+              </fieldset>
+              <fieldset class="border p-2">
+                  <legend  class="float-none w-auto p-2">Datos Consulta</legend>
+                  <div class="row">
+                       <div class="form-group">
+                          <label>Fecha Consulta</label>
+                          <input type="date" 
+                                class="form-control" 
+                                name="fecha_consulta" 
+                                required="true"
+                                value="{{f_consulta}}"/>
+                          <br />
+                        </div>
+                        {{#each hclinica}}
+                        {{#if nombre_completo}}
+                        <div class="form-group">
+                          <label>Motivo Consulta</label>
+                          <textarea
+                            class="form-control heigth-hc"
+                            name="motivo_consulta"
+                            id="floatingTextarea"
+                            placeholder="Motivos Consulta.."
+                          >{{motivo_consulta}}</textarea>
+                          <br />
+                        </div>
+                        <div class="form-group">
+                          <label>Condición Actual</label>
+                          <textarea
+                            class="form-control heigth-hc"
+                            name="condicion_actual"
+                            placeholder="Condición Actual.."
+                          >{{condicion_actual}}</textarea>
+                          <br />
+                        </div>
+                        <div class="form-group">
+                          <label>Antecedentes Salud</label>
+                          <textarea
+                            class="form-control heigth-hc"
+                            name="antecedentes_salud"
+                            placeholder="Antecedentes de Salud.."
+                          >{{antecedentes_salud}}</textarea>
+                          <br />
+                        </div>
+                        <div class="form-group">
+                          <label>Comentarios</label>
+                          <textarea
+                            class="form-control heigth-hc"
+                            name="comentarios"
+                            placeholder="Comentarios.."
+                          >{{comentarios}}</textarea>
+                          <br />
+                        </div>
+                  </div>
+              </fieldset>
+
+          </div>
+          <div class="col 1"></div>
+      </div>
+      <center style="margin-top:10px">
+         <button type="submit" class="btn btn-outline-primary btn-sm with-button">Registrar</button>
+         <button class="btn btn-outline-primary btn-sm with-button">
+            <a href="/api/usuario/historias_clinicas/{{id_paciente}}" style="text-decoration: none;">Volver</a>
+         </button>
+          {{!-- <form action="/api/usuario/historias_clinicas/{{id_paciente}}?_method=GET" method="POST">
+                <input type="hidden" value="GET" name="_method" />
+                <button
+                  class="btn btn-outline-primary btn-sm with-button"
+                  type="submit"
+                >Volver</button>
+          </form> --}}
+          <form action="/api/usuario/subir_adjuntos/{{nombre_completo}}/{{fecha_consulta}}/{{id_paciente}}/{{_id}}?_method=GET" method="POST">
+                <input type="hidden" value="GET" name="_method" />
+                <button
+                  class="btn btn-outline-success btn-sm with-button"
+                  type="submit"
+                  style="width: 175px!important;"
+                >Subir Archivos Adjuntos</button>
+          </form>
+          {{/if}}
+          {{/each}}
+        </form>
+      </center>
     </div>
-  </body>
-</html>

@@ -14,3 +14,12 @@ body{
 .ancho {
     width:  300px!important;
 }
+
+.with-button {
+    width: 120px!important;
+    margin-bottom: 2px!important;
+}
+
+.heigth-hc{
+    height: 300px!important;
+}

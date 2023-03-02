@@ -16,7 +16,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 let __dirname = path.dirname(__filename);
 let route;
-route = "D:/Archivos Aleproyect/";
+route = "/home/mrivas/Escritorio/Manu/"; // Windows: route = "D:/Archivos Aleproyect/";
 //Configuro multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -88,22 +88,24 @@ router.post("/login", async (req, res) => {
 
     //Verifica que exista un usuario con el mail escrito en el form
     if (!usuarioDB) {
-      return res.status(400).json({
-        ok: false,
-        err: {
-          message: "Usuario o contraseña incorrectos",
-        },
-      });
+      // return res.status(400).json({
+      //   ok: false,
+      //   err: {
+      //     message: "Usuario o contraseña incorrectos",
+      //   },
+      // });
+      return res.render("templates/login_incorrecto");
     }
 
     //Valida que la contraseña escrita por el usuario sea la almacenada en la base
     if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
-      return res.status(400).json({
-        ok: false,
-        err: {
-          message: "Usuario o contraseña incorrectos",
-        },
-      });
+      // return res.status(400).json({
+      //   ok: false,
+      //   err: {
+      //     message: "Usuario o contraseña incorrectos",
+      //   },
+      // });
+      return res.render("templates/login_incorrecto");
     }
 
     dotenv.config();
@@ -125,20 +127,126 @@ router.post("/login", async (req, res) => {
 
 //Obtiene la página inicial apenas entro al localhost, validada para habilitar inicio sesion
 router.get("/", async (req, res) => {
-  Paciente.find((err, listar_personas) => {
-    if (err) {
-      res.json({
-        resultado: false,
-        msj: "No se pudieron listar los pacientes",
-        err,
-      });
+  let perPage = 20;
+  let page = req.params.page || 1;
+  if (req.session.login) {
+    if (req.query.fullname) {
+      await Paciente.find(
+        { nombre_completo: { $regex: ".*" + req.query.fullname + ".*" } },
+        (err, listar_personas) => {
+          if (err) {
+            res.json({
+              resultado: false,
+              msj: "No se pudieron listar los pacientes",
+              err,
+            });
+          } else {
+            res.render("templates/home", {
+              status: true,
+              pacientes: listar_personas,
+            });
+          }
+        }
+      );
     } else {
-      res.render("templates/home", {
-        status: req.session.login,
-        pacientes: listar_personas,
-      });
+      //Paginacion
+      Paciente.find({})
+        .sort([["apellido", 1]])
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .sort([["apellido", 1]])
+        .exec((err, listar_personas) => {
+          Paciente.count((err, count) => {
+            let pages = Math.ceil(count / perPage);
+            let pag = [];
+
+            for (let i = 0; i <= pages; i++) {
+              if (i != 0) {
+                pag.push(i);
+              }
+            }
+
+            if (err) return next(err);
+            if (pages <= 1) {
+              pages = null;
+            }
+
+            res.render("templates/home", {
+              status: req.session.login,
+              pacientes: listar_personas,
+              current: page,
+              pages: pages,
+              currentSum: page + 4,
+              pag: pag,
+            });
+          });
+        });
     }
-  });
+  } else {
+    res.render("templates/login", { status: false });
+  }
+});
+
+router.get("/pacientes/:page", async (req, res, next) => {
+  let perPage = 20;
+  let page = req.params.page || 1;
+  if (req.session.login) {
+    if (req.query.fullname) {
+      await Paciente.find(
+        { nombre_completo: { $regex: ".*" + req.query.fullname + ".*" } },
+        (err, listar_personas) => {
+          if (err) {
+            res.json({
+              resultado: false,
+              msj: "No se pudieron listar los pacientes",
+              err,
+            });
+          } else {
+            res.render("templates/home", {
+              status: true,
+              pacientes: listar_personas,
+            });
+          }
+        }
+      );
+    } else {
+      //Paginacion
+      Paciente.find({})
+        .sort([["apellido", 1]])
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .sort([["apellido", 1]])
+        .exec((err, listar_personas) => {
+          Paciente.count((err, count) => {
+            let pages = Math.ceil(count / perPage);
+            let pag = [];
+
+            //Para armar el paginador
+            for (let i = 0; i <= pages; i++) {
+              if (i != 0) {
+                pag.push(i);
+              }
+            }
+
+            if (pages <= 1) {
+              pages = null;
+            }
+
+            if (err) return next(err);
+            res.render("templates/home", {
+              status: req.session.login,
+              pacientes: listar_personas,
+              current: page,
+              pages: pages,
+              currentSum: page + 4,
+              pag: pag,
+            });
+          });
+        });
+    }
+  } else {
+    res.render("templates/login", { status: false });
+  }
 });
 
 //Cierra la sesion eliminando los datos y redifgiendo a página de logout
@@ -154,6 +262,7 @@ router.get("/logout", async (req, res) => {
 
 router.post("/paciente", async (req, res) => {
   let body = req.body;
+  let nombre_completo = req.body.nombre + " " + req.body.apellido;
 
   let {
     nombre,
@@ -172,6 +281,7 @@ router.post("/paciente", async (req, res) => {
   let paciente = new Paciente({
     nombre,
     apellido,
+    nombre_completo,
     dni,
     fecha_nacimiento,
     direccion,
@@ -235,6 +345,7 @@ router.get("/pacientes/editar/:id", async (req, res) => {
 router.put("/pacientes/editar/:id", async (req, res) => {
   if (req.session.login) {
     let body = req.body;
+    let nombre_completo = req.body.nombre + " " + req.body.apellido;
 
     let {
       nombre,
@@ -253,6 +364,7 @@ router.put("/pacientes/editar/:id", async (req, res) => {
     await Paciente.findByIdAndUpdate(req.params.id, {
       nombre,
       apellido,
+      nombre_completo,
       dni,
       fecha_nacimiento,
       direccion,
@@ -308,31 +420,91 @@ router.delete("/pacientes/eliminar/:id", async (req, res) => {
 });
 
 router.get("/historias_clinicas/:id", async (req, res) => {
+  let perPage = 20;
+  let page = req.params.page || 1;
+
   if (req.session.login) {
-    //Devuelve historias clinicas según el id
-    HClinica.find(
-      { id_paciente: req.params.id },
-      {},
-      (err, listar_hclinicas) => {
-        if (err) {
-          res.json({
-            resultado: false,
-            msj: "No se pudieron listar las historias clinicas",
-            err,
-          });
-        } else {
+    //Paginacion
+    HClinica.find({ id_paciente: req.params.id })
+      .sort([["fecha_consulta", -1]])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec((err, listar_hclinicas) => {
+        HClinica.count({ id_paciente: req.params.id }, (err, count) => {
+          let pages = Math.ceil(count / perPage);
+          let pag = [];
+
+          //Para armar el paginador
+          for (let i = 0; i <= pages; i++) {
+            if (i != 0) {
+              pag.push(i);
+            }
+          }
+
+          if (err) return next(err);
+          if (pages <= 1) {
+            pages = null;
+          }
+
           res.render(`templates/historias_clinicas`, {
             status: req.session.login,
             id: req.params.id,
             hclinicas: listar_hclinicas,
+            current: page,
+            pages: pages,
+            currentSum: page + 4,
+            pag: pag,
           });
-        }
-      }
-    );
+        });
+      });
   } else {
     res.render("templates/login", { status: false });
   }
 });
+
+router.get("/historias_clinicas/:id/:page", async (req, res) => {
+  let perPage = 20;
+  let page = req.params.page || 1;
+
+  if (req.session.login) {
+    //Paginacion
+    HClinica.find({ id_paciente: req.params.id })
+      .sort([["fecha_consulta", -1]])
+      .skip(perPage * page - perPage)
+      .limit(perPage)
+      .exec((err, listar_hclinicas) => {
+        HClinica.count({ id_paciente: req.params.id }, (err, count) => {
+          let pages = Math.ceil(count / perPage);
+          let pag = [];
+
+          //Para armar el paginador
+          for (let i = 0; i <= pages; i++) {
+            if (i != 0) {
+              pag.push(i);
+            }
+          }
+
+          if (err) return next(err);
+          if (pages <= 1) {
+            pages = null;
+          }
+
+          res.render(`templates/historias_clinicas`, {
+            status: req.session.login,
+            id: req.params.id,
+            hclinicas: listar_hclinicas,
+            current: page,
+            pages: pages,
+            currentSum: page + 4,
+            pag: pag,
+          });
+        });
+      });
+  } else {
+    res.render("templates/login", { status: false });
+  }
+});
+
 //////////////////////////MODIFIQUE DESDE ACA////////////////////////
 /**
  * form_historias_clinicas
@@ -527,7 +699,9 @@ router.post(
   upload.array("file", 5),
   function (req, res, next) {
     if (req.session.login) {
-      res.render("templates/archivos_agregados");
+      res.render("templates/archivos_agregados", {
+        id_paciente: req.params.id_paciente,
+      });
     } else {
       res.render("templates/login", { status: false });
     }
@@ -535,18 +709,22 @@ router.post(
 );
 
 router.get(
-  "/ver_adjuntos/:nombre_completo/:fecha_consulta",
+  "/ver_adjuntos/:nombre_completo/:fecha_consulta/:id_paciente",
   function (req, res, next) {
     if (req.session.login) {
       let fecha_format = moment(req.params.fecha_consulta)
         .add(1, "days")
         .format("YYYY-MM-DD");
-      let ruta =
-        path.join(route) + fecha_format + req.params.nombre_completo;
+      let ruta = path.join(route) + fecha_format + req.params.nombre_completo;
       let carpeta = fecha_format + req.params.nombre_completo;
 
       fs.readdir(ruta, function (err, files) {
-        res.render("templates/descargar_archivos", {status: req.session.login, archivos: files, carpeta });
+        res.render("templates/descargar_archivos", {
+          status: req.session.login,
+          archivos: files,
+          carpeta,
+          id_paciente: req.params.id_paciente,
+        });
       });
     } else {
       res.render("templates/login", { status: false });
@@ -556,7 +734,7 @@ router.get(
 
 router.get("/download/:ruta/:id", (req, res) => {
   var x = route + "/" + req.params.ruta + "/" + req.params.id;
-  console.log(x)
+  console.log(x);
   res.download(x);
 });
 

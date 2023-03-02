@@ -1,67 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/api/usuario/form_historias_clinicas/{{id}}?_method=GET"
-          method="GET">
-        <input type="hidden" value="GET" name="_method">
-        <button class="btn btn-primary"
-                style="color:aliceblue"
+ <div class="row">
+    <div class="col 6">
+        <h2 style="display: inline-block;">Historia Clínica</h2>
+        <br>
+        <form action="/api/usuario/form_historias_clinicas/{{id}}?_method=GET"
+            style="display: inline-block;"
+            method="GET">
+            <input type="hidden" value="GET" name="_method">
+            <button class="btn btn-outline-primary btn-sm"
+                    type="submit"
+            >Agregar Consulta/Registro</button>
+        </form>
+        <form action="/api/usuario/?_method=GET" method="GET"
+        style="display: inline-block;">
+              <input type="hidden" value="GET" name="_method" />
+              <button
+                class="btn btn-outline-primary btn-sm"
                 type="submit"
-        >Agregar Consulta/Registro</button>
-    </form>
-        <h2>Historia Clínica </h2>           
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Fecha Consulta</th>
-                <th scope="col">Nombre/Apellido</th>
-                <th scope="col">DNI</th>
-                <th scope="col">Comentarios</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-                {{# each hclinicas as | item key |}}
-                    {{# each item }}
-                        {{#if nombre_completo}}
-                        <tr>
-                            <td>{{formatTime fecha_consulta "DD/MM/YYYY"}}</td>                            
-                            <td>{{nombre_completo}}</td>
-                            <td>{{dni}}</td>
-                            <td>{{comentarios}}</td>
-                            <td>
-                                <button class="btn btn-primary btn-warning">
-                                    <a    style="text-decoration: none; color:aliceblue"
+              >Lista de pacientes</button>
+        </form>
+    </div>
+</div>
+         
+<table class="table table-striped table-bordered" style="margin-top:10px">
+    <thead>
+        <tr>
+            <th scope="col">Fecha Consulta</th>
+            <th scope="col">Nombre/Apellido</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Comentarios</th>
+            <th scope="col" style="width: 35%!important;"><center>Acciones</center></th>
+        </tr>
+    </thead>
+    <tbody>
+            {{# each hclinicas as | item key |}}
+                {{# each item }}
+                    {{#if nombre_completo}}
+                    <tr>
+                        <td>{{formatTime fecha_consulta "DD/MM/YYYY"}}</td>                            
+                        <td>{{nombre_completo}}</td>
+                        <td>{{dni}}</td>
+                        <td>{{comentarios}}</td>
+                        <td>
+                            <center>
+                                <button class="btn btn-outline-success btn-sm with-button" style="width: 165px!important;display: inline-block;">
+                                    <a    style="text-decoration: none; color: green"
+                                        href="/api/usuario/ver_adjuntos/{{nombre_completo}}/{{fecha_consulta}}/{{id_paciente}}">
+                                        Ver Archivos Adjuntos
+                                    </a>  
+                                </button>
+                                <form action="/api/usuario/subir_adjuntos/{{nombre_completo}}/{{fecha_consulta}}/{{id_paciente}}/{{_id}}?_method=GET" method="POST"  style="display: inline-block;">
+                                    <input type="hidden" value="GET" name="_method" />
+                                    <button
+                                        class="btn btn-outline-success btn-sm with-button"
+                                        type="submit"
+                                        style="width: 175px!important;"
+                                    >Subir Archivos Adjuntos</button>
+                                </form>
+                                <button class="btn btn-outline-primary btn-sm with-button"  style="display: inline-block;">
+                                    <a    style="text-decoration: none;"
                                         href="/api/usuario/historia_clinica/editar/{{id_paciente}}/{{_id}}">
                                         Editar
                                     </a>  
                                 </button>
-                                <button class="btn btn-primary btn-warning">
-                                    <a    style="text-decoration: none; color:aliceblue"
-                                        href="/api/usuario/ver_adjuntos/{{nombre_completo}}/{{fecha_consulta}}">
-                                        Ver Archivos Adjuntos
-                                    </a>  
-                                </button>
                                 <form action="/api/usuario/hclinicas/eliminar/{{id_paciente}}/{{_id}}?_method=DELETE"
-                                        method="POST">
+                                        method="POST"  style="display: inline-block;">
                                     <input type="hidden" value="DELETE" name="_method">
-                                    <button class="btn btn-primary btn-danger"
-                                            style="color:aliceblue"
+                                    <button class="btn btn-outline-danger btn-sm with-button"
                                             type="submit"
                                     >Borrar
                                 </form>
-                            </td>
-                        </tr>
-                        {{/if}}
-                    {{/each}}                    
-                {{/each}}               
-        </tbody>
-    </table>
-</body>
-</html>
+                            </center>
+                        </td>
+                    </tr>
+                    {{/if}}
+                {{/each}}                    
+            {{/each}}               
+    </tbody>
+</table>
+
+<center>
+      <div class="row">
+        {{#if pages}}
+            <nav class="mx-auto" >
+                <ul class="pagination">
+                    {{#if (eq current 1)}}
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link"> Primer página</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a href="/api/usuario/historias_clinicas/{{id}}/1" class="page-link"> Primer página</a>
+                        </li>
+                    {{/if}}
+
+                    {{# each pag as |item key|}}
+                        <li class="page-item">
+                                <a href="/api/usuario/historias_clinicas/{{../id}}/{{item}}" class="page-link">{{item}}</a>
+                        </li>
+                    {{/each}}
+
+                    {{#if (eq current pages)}}
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link"> Última página</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a href="/api/usuario/historias_clinicas/{{id}}/{{pages}}" class="page-link"> Última página</a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        {{/if}}
+      </div>
+</center>

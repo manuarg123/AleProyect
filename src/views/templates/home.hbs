@@ -1,59 +1,139 @@
-<h2>Bienvenido.</h2>
-    {{#if status}}
-        <h4>Lista de pacientes</h4>
-        <button class="btn btn-primary"><a style="text-decoration: none; color:aliceblue"href="./usuario/form_paciente">Agregar Paciente</a></button>
-        <table class="table">
-            <thead>
-                <tr>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
-                <th scope="col">DNI</th>
-                <th scope="col">Direccion</th>
-                <th scope="col">Localidad</th>
-                <th scope="col">Teléfono 1</th>
-                <th scope="col">Teléfono 2</th>
-                <th scope="col">Obra Social</th>
-                <th scope="col">Nro en Obra Social</th>
-                <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                    {{# each pacientes as | item key |}}
-                        {{# each item }}
-                            {{#if nombre}}
-                            <tr>
-                                <td>{{nombre}}</td>
-                                <td>{{apellido}}</td>
-                                <td>{{dni}}</td>
-                                <td>{{direccion}}</td>
-                                <td>{{localidad}}</td>
-                                <td>{{telefono_1}}</td>
-                                <td>{{telefono_2}}</td>
-                                <td>{{obra_social}}</td>
-                                <td>{{id_obra_social}}</td>
-                                <td><button class="btn btn-primary btn-warning">
-                                      <a    style="text-decoration: none; color:aliceblue"
-                                            href="/api/usuario/pacientes/editar/{{_id}}">
-                                            Editar
-                                      </a>  
-                                    </button>
-                                    <form action="/api/usuario/pacientes/eliminar/{{_id}}?_method=DELETE"
-                                           method="POST">
-                                       <input type="hidden" value="DELETE" name="_method">
-                                        <button class="btn btn-primary btn-danger"
-                                                style="color:aliceblue"
-                                                type="submit"
-                                        >Borrar
-                                    </form>
-                                </td>
-                            </tr>
-                            {{/if}}
-                        {{/each}}                    
-                    {{/each}}               
-            </tbody>
-        </table>
+{{#if status}}
+    <div class="row">
+        <div class="col 6">
+            <h2 style="display: inline-block;">Listado de pacientes</h2>
+             <form action="/api/usuario/form_paciente" method="GET">
+                <input type="hidden" value="GET" name="_method" />
+                <input class="btn btn-outline-primary btn-sm" type="submit" class="btn btn-primary" value="Agregar Paciente">
+            </form> 
+        </div>
+    </div>
 
-        <div class="modal fade" id="edicionPaiente">hola</div>
-    {{else}}
-       <h4>Necesitas loguearte para acceder a la página</h4>
-    {{/if}}
+    <form action="/api/usuario/?_method=GET" method="GET" style="margin-top: 20px;">
+    <input type="hidden" value="GET" name="_method" />
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar por nombre completo"  id="fullname" name="fullname">
+            <input type="submit" class="btn btn-outline-success btn-sm" value="Buscar">
+            <button class="btn btn-outline-primary btn-sm">
+                <a href="/api/usuario/pacientes/1" style="text-decoration: none;"> Todos</a>
+            </button>
+        </div>
+    </form>
+
+    <table class="table table-striped table-bordered" style="margin-top: 20px;">
+        <thead>
+            <tr>
+            <th scope="col">Apellido</th>    
+            <th scope="col">Nombre</th>
+            <th scope="col">DNI</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Localidad</th>
+            <th scope="col">Teléfono 1</th>
+            <th scope="col">Teléfono 2</th>
+            <th scope="col">Obra Social</th>
+            <th scope="col">Nro en Obra Social</th>
+            <th scope="col"><center>Acciones</center></th>
+            </tr>
+        </thead>
+        <tbody>
+                {{# each pacientes as | item key |}}
+                    {{# each item }}
+                        {{#if nombre}}
+                        <tr>
+                            <td>{{apellido}}</td>
+                            <td>{{nombre}}</td>                            
+                            <td>{{dni}}</td>
+                            <td>{{direccion}}</td>
+                            <td>{{localidad}}</td>
+                            <td>{{telefono_1}}</td>
+                            <td>{{telefono_2}}</td>
+                            <td>{{obra_social}}</td>
+                            <td>{{id_obra_social}}</td>
+                            <td>
+                                <center>
+                                    <form
+                                action="/api/usuario/historias_clinicas/{{_id}}?_method=GET"
+                                method="POST"
+                                >
+                                <input type="hidden" value="GET" name="_method" />
+                                <button
+                                    class="btn btn-outline-success btn-sm with-button"
+                                    type="submit"
+                                >Historia clinica</button>
+                                </form>
+                                <button class="btn btn-outline-primary btn-sm with-button">
+                                    <a    style="text-decoration: none; color: blue"
+                                        href="/api/usuario/pacientes/editar/{{_id}}">
+                                        Editar
+                                    </a>  
+                                </button>
+                                <form action="/api/usuario/pacientes/eliminar/{{_id}}?_method=DELETE"
+                                        method="POST">
+                                    <input type="hidden" value="DELETE" name="_method">
+                                    <button class="btn btn-outline-danger btn-sm with-button"
+                                            type="submit"
+                                    >Borrar
+                                </form>
+                                </center>
+                            </td>
+                        </tr>
+                        {{/if}}
+                    {{/each}}                    
+                {{/each}}               
+        </tbody>
+    </table>
+    
+    <center>
+      <div class="row">
+        {{#if pages}}
+            <nav class="mx-auto" >
+                <ul class="pagination">
+                    {{#if (eq current 1)}}
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link"> Primer página</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a href="/api/usuario/pacientes/1" class="page-link"> Primer página</a>
+                        </li>
+                    {{/if}}
+                    
+                    {{# each pag as |item key|}}
+                          <li class="page-item">
+                                <a href="/api/usuario/pacientes/{{item}}" class="page-link">{{item}}</a>
+                            </li>
+                    {{/each}}
+
+                    {{#if (eq current pages)}}
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link"> Última página</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a href="/api/usuario/pacientes/{{pages}}" class="page-link"> Última página</a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        {{/if}}
+      </div>
+    </center>
+{{else}}
+<div class="row">
+    <div class="col 3"></div>
+    <div class="col 6">
+        <center>
+            <h4>Necesitas loguearte para acceder a la página</h4>
+            <p>Pronto serás redireccionado a la página de login</p>
+        </center>
+    </div>
+    <div class="col 3"></div>
+</div>
+
+<script>
+    setTimeout( () => {
+        document.location.href="/api/usuario/login";
+    }, 2000)
+</script>
+
+{{/if}}

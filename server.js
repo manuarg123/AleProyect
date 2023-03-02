@@ -14,13 +14,44 @@ import hbs from "handlebars";
 import moment from "moment";
 
 //Registro un helper para dar formato al tiempo dentro de handlebars
-hbs.registerHelper('formatTime', function (date, format) {
-    var mmnt = moment(date);
-    return mmnt.format(format);
+hbs.registerHelper("formatTime", function (date, format) {
+  var mmnt = moment(date);
+  return mmnt.format(format);
 });
 
-hbs.registerHelper("setVar", function(varName, varValue, options) {
-    options.data.root[varName] = varValue;
+hbs.registerHelper("setVar", function (varName, varValue, options) {
+  options.data.root[varName] = varValue;
+});
+
+hbs.registerHelper("eq", function () {
+  const args = Array.prototype.slice.call(arguments, 0, -1);
+  return args.every(function (expression) {
+    return args[0] === expression;
+  });
+});
+
+hbs.registerHelper("when", (operand_1, operator, operand_2, options) => {
+  let operators = {
+    //  {{#when <operand1> 'eq' <operand2>}}
+    eq: (l, r) => l == r, //  {{/when}}
+    noteq: (l, r) => l != r,
+    gt: (l, r) => +l > +r, // {{#when var1 'eq' var2}}
+    gteq: (l, r) => +l > +r || l == r, //               eq
+    lt: (l, r) => +l < +r, // {{else when var1 'gt' var2}}
+    lteq: (l, r) => +l < +r || l == r, //               gt
+    or: (l, r) => l || r, // {{else}}
+    and: (l, r) => l && r, //               lt
+    "%": (l, r) => l % r === 0, // {{/when}}
+  };
+  let result = operators[operator](operand_1, operand_2);
+  if (result) return options.fn(this);
+  return options.inverse(this);
+});
+
+hbs.registerHelper("for", function (from, to, incr, block) {
+  var accum = "";
+  for (var i = from; i <= to; i += incr) accum += block.fn(i);
+  return accum;
 });
 
 const app = express();

@@ -12,6 +12,10 @@ let pacienteSchema = new Schema({
     type: String,
   },
 
+  nombre_completo: {
+    type: String,
+  },
+
   dni: {
     type: String,
   },

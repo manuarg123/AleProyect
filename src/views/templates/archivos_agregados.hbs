@@ -1,20 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Se agregaron los archivos existosamente</h1>
-    <form action="/?_method=GET" method="POST">
+<div class="row">
+  <div class="col 2"></div>
+  <div class="col 8">
+    <center>
+      <h1>Se agregaron los archivos existosamente</h1>
+      <form
+        action="/api/usuario/historias_clinicas/{{id_paciente}}?_method=GET"
+        method="POST"
+      >
         <input type="hidden" value="GET" name="_method" />
         <button
-        class="btn btn-primary"
-        style="color:aliceblue"
-        type="submit"
+          class="btn btn-outline-primary btn-sm with-button"
+          type="submit"
         >Volver</button>
-    </form>
-</body>
-</html>
+      </form>
+    </center>
+  </div>
+  <div class="col 2"></div>
+</div>

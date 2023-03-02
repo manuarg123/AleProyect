@@ -1,26 +1,20 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
+<div class="row">
+  <div class="col 2"></div>
+  <div class="col 6">
     {{#each paciente}}
       {{#if nombre}}
-        <h2>Editar Paciente</h2>
+        <center><h2>Editar Paciente</h2>
         <form
           action="/api/usuario/historias_clinicas/{{_id}}?_method=GET"
           method="POST"
         >
           <input type="hidden" value="GET" name="_method" />
           <button
-            class="btn btn-primary"
-            style="color:aliceblue"
+            class="btn btn-outline-primary btn-sm"
             type="submit"
-          >Historia clinica/consultas</button>
+          >Ir a Historia clinica/consultas</button>
         </form>
-
+        </center>
         <div class="row g-3">
 
           <form
@@ -152,18 +146,19 @@
                 value="{{id_obra_social}}"
               />
             </div>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-            <form action="/?_method=GET" method="POST">
+            <center style="margin-top: 10px;"><input type="submit" class="btn btn-outline-success btn-sm" value="Guardar cambios"/>
+            <form action="/?_method=GET" method="GET">
               <input type="hidden" value="GET" name="_method" />
               <button
-                class="btn btn-primary"
-                style="color:aliceblue"
+                class="btn btn-outline-primary btn-sm"
                 type="submit"
               >Volver</button>
             </form>
+            </center>
           </form>
         </div>
       {{/if}}
     {{/each}}
-  </body>
-</html>
+  </div>
+  <div class="col 2"></div>
+</div>
