@@ -16,7 +16,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 let __dirname = path.dirname(__filename);
 let route;
-route = "/home/mrivas/Escritorio/Manu/"; // Windows: route = "D:/Archivos Aleproyect/";
+route = "C:/Pacientes/"; // Linux: route = "/home/mrivas/Escritorio/Manu/";
 //Configuro multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
