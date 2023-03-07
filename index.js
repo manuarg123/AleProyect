@@ -13,6 +13,7 @@ import flash from "connect-flash";
 import hbs from "handlebars";
 import moment from "moment";
 
+
 //Registro un helper para dar formato al tiempo dentro de handlebars
 hbs.registerHelper("formatTime", function (date, format) {
   var mmnt = moment(date);
@@ -119,6 +120,4 @@ app.use((req, res, next) => {
 app.use("/api/usuario", userRouter);
 app.use("/api/paciente", pacienteRouter);
 
-app.get("/", (req, res) => {
-  res.render("templates/home", {});
-});
+
