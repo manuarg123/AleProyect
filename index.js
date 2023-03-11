@@ -120,4 +120,6 @@ app.use((req, res, next) => {
 app.use("/api/usuario", userRouter);
 app.use("/api/paciente", pacienteRouter);
 
-
+app.get("/", (req, res) => {
+  res.render("templates/home", {});
+});

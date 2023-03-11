@@ -14,9 +14,11 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
+
 let __dirname = path.dirname(__filename);
 let route;
-route = "/home/mrivas/Escritorio/Manu/"; // Linux: route = "C:/Pacientes/";
+
+route = __dirname + "/uploads/"; // Linux: route = "/home/mrivas/Escritorio/Manu/";
 //Configuro multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -88,23 +90,11 @@ router.post("/login", async (req, res) => {
 
     //Verifica que exista un usuario con el mail escrito en el form
     if (!usuarioDB) {
-      // return res.status(400).json({
-      //   ok: false,
-      //   err: {
-      //     message: "Usuario o contraseña incorrectos",
-      //   },
-      // });
       return res.render("templates/login_incorrecto");
     }
 
     //Valida que la contraseña escrita por el usuario sea la almacenada en la base
     if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
-      // return res.status(400).json({
-      //   ok: false,
-      //   err: {
-      //     message: "Usuario o contraseña incorrectos",
-      //   },
-      // });
       return res.render("templates/login_incorrecto");
     }
 
@@ -150,36 +140,43 @@ router.get("/", async (req, res) => {
       );
     } else {
       //Paginacion
-      Paciente.find({})
+       await Paciente.find({})
         .sort([["apellido", 1]])
         .skip(perPage * page - perPage)
         .limit(perPage)
         .sort([["apellido", 1]])
         .exec((err, listar_personas) => {
-          Paciente.count((err, count) => {
-            let pages = Math.ceil(count / perPage);
-            let pag = [];
-
-            for (let i = 0; i <= pages; i++) {
-              if (i != 0) {
-                pag.push(i);
-              }
-            }
-
-            if (err) return next(err);
-            if (pages <= 1) {
-              pages = null;
-            }
-
-            res.render("templates/home", {
-              status: req.session.login,
-              pacientes: listar_personas,
-              current: page,
-              pages: pages,
-              currentSum: page + 4,
-              pag: pag,
+          if (err) {
+            res.json({
+              resultado: false,
+              msj: "No se pudieron listar los pacientes",
+              err,
             });
-          });
+          } else {
+            Paciente.count((err, count) => {
+              let pages = Math.ceil(count / perPage);
+              let pag = [];
+
+              for (let i = 0; i <= pages; i++) {
+                if (i != 0) {
+                  pag.push(i);
+                }
+              }
+
+              if (err) return next(err);
+              if (pages <= 1) {
+                pages = null;
+              }
+              res.render("templates/home", {
+                status: req.session.login,
+                pacientes: listar_personas,
+                current: page,
+                pages: pages,
+                currentSum: page + 4,
+                pag: pag,
+              });
+            });
+          }
         });
     }
   } else {
@@ -305,7 +302,6 @@ router.post("/paciente", async (req, res) => {
     } else {
       //Redirecciono para que cambie url y luego renderizo el home con los datos
       req.session.login = true;
-      res.redirect("/api/usuario");
       res.render("templates/home", {
         status: true,
         pacientes: listar_personas,
@@ -385,7 +381,6 @@ router.put("/pacientes/editar/:id", async (req, res) => {
       } else {
         //Redirecciono para que cambie url y luego renderizo el home con los datos
         req.session.login = true;
-        res.redirect("/api/usuario");
         res.render("templates/home", {
           status: true,
           pacientes: listar_personas,
@@ -410,7 +405,6 @@ router.delete("/pacientes/eliminar/:id", async (req, res) => {
     } else {
       //Redirecciono para que cambie url y luego renderizo el home con los datos
       req.session.login = true;
-      res.redirect("/api/usuario");
       res.render("templates/home", {
         status: true,
         pacientes: listar_personas,
@@ -465,7 +459,6 @@ router.get("/historias_clinicas/:id", async (req, res) => {
 router.get("/historias_clinicas/:id/:page", async (req, res) => {
   let perPage = 20;
   let page = req.params.page || 1;
-
   if (req.session.login) {
     //Paginacion
     HClinica.find({ id_paciente: req.params.id })
@@ -511,18 +504,22 @@ router.get("/historias_clinicas/:id/:page", async (req, res) => {
  */
 router.get("/form_historias_clinicas/:paciente_id", async (req, res) => {
   if (req.session.login) {
-    let paciente = await Paciente.findById(req.params.paciente_id);
-    let nacimiento = moment(paciente.fecha_nacimiento)
-      .add(1, "days")
-      .format("YYYY-MM-DD");
-    let nombre_completo = paciente.nombre + " " + paciente.apellido;
-    res.render("templates/form_historias_clinicas", {
-      status: req.session.login,
-      id: req.params.paciente_id,
-      nacimiento: nacimiento,
-      paciente,
-      nombre_completo,
-    });
+    let id_pac = req.params.paciente_id != 'bootstrap.bundle.min.js' ? req.params.paciente_id : null ;
+
+    if (id_pac) {
+      let paciente = await Paciente.findById(id_pac);
+      let nacimiento = moment(paciente.fecha_nacimiento)
+        .add(1, "days")
+        .format("YYYY-MM-DD");
+      let nombre_completo = paciente.nombre + " " + paciente.apellido;
+      res.render("templates/form_historias_clinicas", {
+        status: req.session.login,
+        id: id_pac,
+        nacimiento: nacimiento,
+        paciente,
+        nombre_completo,
+      });
+    }    
   } else {
     res.render("templates/login", { status: false });
   }
@@ -530,10 +527,10 @@ router.get("/form_historias_clinicas/:paciente_id", async (req, res) => {
 
 router.post("/historias_clinicas/:id_paciente", async (req, res) => {
   let body = req.body;
-
+  let id_paciente = req.params.id_paciente;
+  
   if (req.session.login) {
     let {
-      id_paciente,
       fecha_consulta,
       nombre_completo,
       dni,
@@ -554,7 +551,7 @@ router.post("/historias_clinicas/:id_paciente", async (req, res) => {
       comentarios,
     });
 
-    hclinica.save();
+    await hclinica.save();
 
     req.flash("success_msg", "Se agrego la historia clínica exitosamente");
     HClinica.find({ id_paciente: id_paciente }, {}, (err, listar_hclinicas) => {
@@ -566,7 +563,7 @@ router.post("/historias_clinicas/:id_paciente", async (req, res) => {
         });
       } else {
         //Redireccion la url para q no se rompa
-        res.redirect(`${id_paciente}?_method=GET`);
+        // res.redirect(`${id_paciente}?_method=GET`);
         res.render(`templates/historias_clinicas`, {
           status: req.session.login,
           id: id_paciente,
